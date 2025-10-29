@@ -12,14 +12,13 @@ function recalcValues() {
         inputCusto.value = Number(inputCusto.value).toFixed(2)
     }
 
-    if(multiNfElements.Length === 0) {
+    if (multiNfElements.Length === 0) {
         alert("Nenhuma minuta com mais de uma NF foi encontrada.")
         return
     }
 
     console.log(`Minutas com mais de uma NF encontradas: ${multiNfElements.length}`)
     console.log(`Minutas: ${multiNfElements.join(", ")}`)
-
 }
 
 console.clear()
