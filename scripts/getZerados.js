@@ -22,7 +22,7 @@ function getCustos() {
         const remessas = getRemessas()
         remessas.forEach(remessa => {
             let custo = Number(document.getElementById(`custo_${remessa}`).value)
-            if (custo !== 0) list.push(remessa)
+            if (custo === 0) list.push(remessa)
         })
     } else {
         let custos = document.querySelectorAll('#custo')
