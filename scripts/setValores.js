@@ -17,14 +17,26 @@ function getRemessas() {
     return list;
 }
 
+function setCustoCalculado(remessa, value) {
+    let checkBoxFrete = document.getElementById(`minuta_${remessa}`);
+    console.log(checkBoxFrete.setAttribute('frete', value));
+    if (checkBoxFrete.checked) {
+        checkBoxFrete.click();
+    }
+    checkBoxFrete.click();
+}
+
 function setCustos(newValue) {
     newValue = newValue.toFixed(2);
     if (isConsulta()) {
         const remessas = getRemessas();
         remessas.forEach(remessa => document.getElementById(`custo_${remessa}`).value = newValue);
     } else {
-        document.querySelectorAll('#custo')
-            .forEach(el => el.value = newValue);
+        const custos = document.querySelectorAll('#custo');
+        custos.forEach(el => {
+            el.value = newValue;
+            setCustoCalculado(el.getAttribute('minuta'), newValue);
+        })
     }
 }
 
