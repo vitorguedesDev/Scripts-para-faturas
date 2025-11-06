@@ -22,10 +22,6 @@ function recalcValues() {
     console.log(`Minutas: ${multiNfElements.join(", ")}`);
 }
 
-tableRows.forEach(row => calculaFrete(row.getAttribute('remessa'), 1, $(this)));
-console.clear();
-recalcValues();
-
 function recalcularFatura() {
     const inputSelecionarTodos = document.getElementById('selecionarTodos');
     const selecionarTodos = () => inputSelecionarTodos.click()
@@ -34,3 +30,10 @@ function recalcularFatura() {
     }
     selecionarTodos();
 }
+
+
+tableRows.forEach(row => calculaFrete(row.getAttribute('remessa'), 1, $(this)));
+console.clear();
+recalcValues();
+recalcularFatura();
+
