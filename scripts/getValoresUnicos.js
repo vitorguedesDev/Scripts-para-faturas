@@ -1,3 +1,5 @@
+//Demonstra valores unicos das remessas calculadas
+
 function isConsulta() {
     return window.location.pathname.includes('consultaFatura')
 }
