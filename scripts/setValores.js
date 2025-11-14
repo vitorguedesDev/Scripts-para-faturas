@@ -17,26 +17,21 @@ function getRemessas() {
     return list;
 }
 
-function setCustoCalculado(remessa, value) {
-    let checkBoxFrete = document.getElementById(`minuta_${remessa}`);
-    console.log(checkBoxFrete.setAttribute('frete', value));
-    if (checkBoxFrete.checked) {
-        checkBoxFrete.click();
-    }
-    checkBoxFrete.click();
-}
 
 function setCustos(newValue) {
     newValue = newValue.toFixed(2);
+    const remessas = getRemessas();
     if (isConsulta()) {
-        const remessas = getRemessas();
-        remessas.forEach(remessa => document.getElementById(`custo_${remessa}`).value = newValue);
+        remessas.forEach(remessa => {
+            document.getElementById(`custo_${remessa}`).value = newValue
+            document.querySelector(`[remessa="${remessa}"]`).children[0].firstChild.setAttribute('frete', newValue);
+        });
     } else {
-        const custos = document.querySelectorAll('#custo');
+        const custos = Array.from(document.querySelectorAll('#custo')).slice(0, qntLinhas > 0 ? qntLinhas : undefined);
         custos.forEach(el => {
             el.value = newValue;
-            setCustoCalculado(el.getAttribute('minuta'), newValue);
-        })
+        });
+        remessas.forEach(remessa => document.querySelector(`[remessa="${remessa}"]`).children[0].firstChild.setAttribute('frete', newValue));
     }
 }
 
@@ -45,4 +40,14 @@ const qntLinhas = null;
 console.clear();
 setCustos(7.65);
 
-qntLinhas > 0 ? console.log(`${qntLinhas} linhas alteradas.`) : console.log('Todos os valores foram alterados.');
+// Aviso no console
+switch (qntLinhas) {
+    case null:
+        console.log('Todos os valores foram alterados.');
+        break;
+    case 1:
+        console.log('1 linha alterada.');
+        break;
+    default:
+        console.log(`${qntLinhas} linhas alteradas.`);
+}
