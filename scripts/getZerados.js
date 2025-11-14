@@ -1,42 +1,42 @@
 function isConsulta() {
-    return window.location.pathname.includes('consultaFatura')
+    return window.location.pathname.includes('consultaFatura');
 }
 
 function getRows() {
-    return document.querySelectorAll("#users > tbody > tr")
+    return document.querySelectorAll("#users > tbody > tr");
 }
 
 function getRemessas() {
-    const rows = getRows()
-    let list = []
+    const rows = getRows();
+    let list = [];
     for (let row of rows) {
-        list.push(row.getAttribute('remessa'))
+        list.push(row.getAttribute('remessa'));
     }
-    return list
+    return list;
 }
 
 function getCustos() {
-    let list = []
+    let list = [];
 
     if (isConsulta()) {
-        const remessas = getRemessas()
+        const remessas = getRemessas();
         remessas.forEach(remessa => {
-            let custo = Number(document.getElementById(`custo_${remessa}`).value)
-            if (custo === 0) list.push(remessa)
-        })
+            let custo = Number(document.getElementById(`custo_${remessa}`).value);
+            if (custo === 0) list.push(remessa);
+        });
     } else {
-        let custos = document.querySelectorAll('#custo')
+        let custos = document.querySelectorAll('#custo');
         custos.forEach(el => {
-            let custo = Number(el.value)
-            if (custo === 0) list.push(custo)
+            let custo = Number(el.value);
+            if (custo === 0) list.push(custo);
         })
     }
 
-    return list
+    return list;
 }
 
-let custosZerados = getCustos()
+let custosZerados = getCustos();
 
-console.clear()
-custosZerados.forEach(el => console.log(el))
-console.info('Total de zeradas:', custosZerados.length)
+console.clear();
+custosZerados.forEach(el => console.log(el));
+console.info('Total de zeradas:', custosZerados.length);
