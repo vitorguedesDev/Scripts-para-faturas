@@ -10,6 +10,7 @@ function recalcValues() {
         let inputCusto = row.children[17].children[1];
         inputCusto.value *= nfCount.toFixed(2);
         inputCusto.value = Number(inputCusto.value).toFixed(2);
+        row.children[0].firstChild.setAttribute('frete', inputCusto.value);
     }
 
     if (multiNfElements.Length === 0) {
@@ -22,8 +23,6 @@ function recalcValues() {
     console.log(`Minutas: ${multiNfElements.join(", ")}`);
 }
 
-
-tableRows.forEach(row => calculaFrete(row.getAttribute('remessa'), 1, $(this)));
 console.clear();
 recalcValues();
 
