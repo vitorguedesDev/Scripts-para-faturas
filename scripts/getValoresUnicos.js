@@ -1,39 +1,58 @@
 //Demonstra valores unicos das remessas calculadas
 
 function isConsulta() {
-    return window.location.pathname.includes('consultaFatura')
+    return window.location.pathname.includes('consultaFatura');
 }
 
 function getRows() {
-    return document.querySelectorAll("#users > tbody > tr")
+    return document.querySelectorAll("#users > tbody > tr");
 }
 
 function getRemessas() {
-    const rows = getRows()
-    let list = []
+    const rows = getRows();
+    let list = [];
     for (let row of rows) {
-        list.push(row.getAttribute('remessa'))
+        list.push(row.getAttribute('remessa'));
     }
-    return list
+    return list;
 }
+
+
+function addToMap(map, value) {
+    if (map.has(value)) {
+        map.get(value).quantity++;
+        return;
+    }
+    map.set(value, { price: value, quantity: 1 });
+}
+
 
 function getCustos() {
-    let list = new Set()
+    const priceMap = new Map();
 
     if (isConsulta()) {
-        const remessas = getRemessas()
-        remessas.forEach(remessa => list.add(
-            document.getElementById(`custo_${remessa}`).value))
+        const remessas = getRemessas();
+        remessas.forEach(remessa => addToMap(
+            priceMap, document.getElementById(`custo_${remessa}`).value));
     } else {
         document.querySelectorAll('#custo')
-            .forEach(el => list.add(el.value))
+            .forEach(el => addToMap(priceMap, el.value));
     }
 
-    return new Set([...list].sort((a, b) => a - b))
+    return new Map(
+        [...priceMap.entries()].sort((a, b) => b[1].quantity - a[1].quantity));
 }
 
-let custos = getCustos()
 
-console.clear()
-console.log('Valores encontrados:')
-custos.forEach(el => console.log(el))
+function showMapResults(map) {
+    for (let [key, value] of map) {
+        console.log(`${((value.quantity / rowsCount) * 100)}% -> R$ ${parseFloat(key).toFixed(2)}`);
+    }
+}
+
+const rowsCount = getRows().length;
+let custos = getCustos();
+
+console.clear();
+
+showMapResults(custos);
