@@ -7,7 +7,9 @@ function recalcValues() {
     for (let row of tableRows) {
         let nfCount = row.children[7].children.length + 1;
         nfCount > 1 ? multiNfElements.push(row.getAttribute('remessa')) : null;
+
         let inputCusto = row.children[17].children[1];
+
         inputCusto.value *= nfCount.toFixed(2);
         inputCusto.value = Number(inputCusto.value).toFixed(2);
         row.children[0].firstChild.setAttribute('frete', inputCusto.value);
@@ -17,7 +19,6 @@ function recalcValues() {
         alert("Nenhuma minuta com mais de uma NF foi encontrada.");
         return;
     }
-
 
     console.log(`Minutas com mais de uma NF encontradas: ${multiNfElements.length}`);
     console.log(`Minutas: ${multiNfElements.join(", ")}`);

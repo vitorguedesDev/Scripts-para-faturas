@@ -4,9 +4,11 @@ function isConsulta() {
     return window.location.pathname.includes('consultaFatura');
 }
 
+
 function getRows() {
     return document.querySelectorAll("#users > tbody > tr");
 }
+
 
 function getRemessas() {
     const rows = getRows();

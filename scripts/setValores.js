@@ -2,10 +2,12 @@ function isConsulta() {
     return window.location.pathname.includes('consultaFatura');
 }
 
+
 function getRows(qntLinhas) {
     const rows = document.querySelectorAll("#users > tbody > tr");
     return qntLinhas > 0 ? Array.from(rows).slice(0, qntLinhas) : rows;
 }
+
 
 function getRemessas() {
     const rows = getRows(qntLinhas);
@@ -34,6 +36,7 @@ function setCustos(newValue) {
         remessas.forEach(remessa => document.querySelector(`[remessa="${remessa}"]`).children[0].firstChild.setAttribute('frete', newValue));
     }
 }
+
 
 const qntLinhas = null;
 

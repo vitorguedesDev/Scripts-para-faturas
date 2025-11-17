@@ -28,8 +28,8 @@ function getCustos() {
         let custos = document.querySelectorAll('#custo');
         custos.forEach(el => {
             let custo = Number(el.value);
-            if (custo === 0) list.push(custo);
-        })
+            if (custo === 0) list.push(el.closest('tr').getAttribute('remessa'));
+        });
     }
 
     return list;
@@ -38,5 +38,5 @@ function getCustos() {
 let custosZerados = getCustos();
 
 console.clear();
-custosZerados.forEach(el => console.log(el));
-console.info('Total de zeradas:', custosZerados.length);
+console.error('Total de minutas zeradas:', custosZerados.length);
+console.info(custosZerados);
