@@ -48,7 +48,8 @@ function getCustos() {
 
 function showMapResults(map) {
     for (let [key, value] of map) {
-        console.log(`${((value.quantity / rowsCount) * 100)}% -> R$ ${parseFloat(key).toFixed(2)}`);
+        console.log(`${((value.quantity / rowsCount) * 100)
+            .toFixed(2)}% -> R$ ${parseFloat(key).toFixed(2)}`);
     }
 }
 
