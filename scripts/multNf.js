@@ -4,9 +4,15 @@ const tableRows = document.querySelectorAll("#users > tbody > tr");
 
 function recalcValues() {
     let multiNfElements = [];
+    let nfBiggerFive = [];
     for (let row of tableRows) {
         let nfCount = row.children[7].children.length + 1;
-        nfCount > 1 ? multiNfElements.push(row.getAttribute('remessa')) : null;
+        if (nfCount > 1) {
+            multiNfElements.push(row.getAttribute('remessa'));
+        }
+        if (nfCount >= 5) {
+            nfBiggerFive.push(row.getAttribute('remessa'));
+        }
 
         let inputCusto = row.children[17].children[1];
 
@@ -20,6 +26,10 @@ function recalcValues() {
         return;
     }
 
+    if (nfBiggerFive.length > 0) {
+        console.warn(`Minutas com mais de 5 NF's encontradas:`);
+        console.log(nfBiggerFive.join(', '));
+    }
     console.log(`Minutas com mais de uma NF encontradas: ${multiNfElements.length}`);
     console.log(`Minutas: ${multiNfElements.join(", ")}`);
 }
