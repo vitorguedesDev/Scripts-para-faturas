@@ -35,8 +35,26 @@ function getTotal() {
 }
 
 
-function setCustos(newValue) {
+function validateData() {
+    if (typeof valorIndividual === typeof valorTotal) return false;
+    return valorIndividual !== null ? valorIndividual : null;
+}
+
+
+function setCustos(newValue = null) {
+    if (validateData() === false) {
+        console.error('Verifique os valores informados.');
+        return;
+    }
+
+    newValue = validateData();
+
+    if (newValue === null) {
+        newValue = valorTotal / getRows(null).length;
+    }
+
     newValue = newValue.toFixed(2);
+
     if (isConsulta()) {
         remessas.forEach(remessa => {
             document.getElementById(`custo_${remessa}`).value = newValue;
@@ -52,27 +70,34 @@ function setCustos(newValue) {
 }
 
 
+function switchValues() {
+    let result = getTotal();
+    qntLinhas = Math.round(Math.abs(valorTotal - result) * 100);
+    remessas = getRemessas();
+    valorIndividual = (valorTotal / getRows(null).length) + (Math.sign(valorTotal - result) * 0.01);
+    valorTotal = null;
+}
+
+
+// Configurações
 let qntLinhas = null;
-const valorTotal = 800;
-const remessas = getRemessas();
+let valorTotal = null;
+let valorIndividual = null;
 
+
+// Inicialização
+let remessas = getRemessas();
 console.clear();
-setCustos(10.00);
+setCustos();
 
-if (getTotal() !== valorTotal) {
-    let operacao = Math.sign(valorTotal - getTotal());
-    console.log(operacao * Math.abs(valorTotal - getTotal()));
+
+// Verificação final
+if (valorTotal && getTotal() !== valorTotal) {
+    switchValues();
+    setCustos();
 }
 
 
 // Aviso no console
-switch (qntLinhas) {
-    case null:
-        console.log('Todos os valores foram alterados.');
-        break;
-    case 1:
-        console.log('1 linha alterada.');
-        break;
-    default:
-        console.log(`${qntLinhas} linhas alteradas.`);
-}
+console.info('Operação realizada');
+console.log('Valor total: ', getTotal());
