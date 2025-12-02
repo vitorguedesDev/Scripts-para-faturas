@@ -1,25 +1,42 @@
+/** 
+ * Verifica se é uma já emitida 
+ * (os identificadores HTML mudam entre as
+ * emitidas e as emissões em andamento)
+ * @returns {Boolean}
+*/
 function isConsulta() {
     return window.location.pathname.includes('consultaFatura');
 }
 
 
+/**
+ * Obtém cada linha da tabela
+ * que contém os serviços
+ * @returns {Array<Element>}
+*/
 function getRows(qntLinhas) {
     const rows = document.querySelectorAll("#users > tbody > tr");
-    return qntLinhas > 0 ? Array.from(rows).slice(0, qntLinhas) : rows;
+    return qntLinhas > 0 ? Array.from(rows).slice(0, qntLinhas) : Array.from(rows);
 }
 
 
+/**
+ * Obtém o identificador de cada
+ * serviço, independente do seu tipo
+ * @returns {Array<String>}
+*/
 function getRemessas() {
     const rows = getRows(qntLinhas);
-
-    let list = [];
-    for (let row of rows) {
-        list.push(row.getAttribute('remessa'));
-    }
+    let list = rows.map(el => el.getAttribute('remessa'));
     return list;
 }
 
 
+/**
+ * Soma todos os valores,
+ * considerando os inputs de custo
+ * @returns {String}
+ */
 function getTotal() {
     let somaTotal = 0;
     let lista = [];
@@ -35,19 +52,27 @@ function getTotal() {
 }
 
 
+/**
+ * Verifica conflitos nas configurações
+ * @returns  {Number || null}
+ */
 function validateData() {
     if (typeof valorIndividual === typeof valorTotal) return false;
     return valorIndividual !== null ? valorIndividual : null;
 }
 
 
-function setCustos(newValue = null) {
+/**
+ * Função principal. Altera o valor dos]
+ * serviços conforme a configuração informada
+ */
+function setCustos() {
     if (validateData() === false) {
         console.error('Verifique os valores informados.');
         return;
     }
 
-    newValue = validateData();
+    let newValue = validateData();
 
     if (newValue === null) {
         newValue = valorTotal / getRows(null).length;
@@ -70,6 +95,12 @@ function setCustos(newValue = null) {
 }
 
 
+/**
+ * Reconfigura variáveis para ajustar
+ * diferença no valor total, usando 1
+ * centavo por remessa para não gerar
+ * custos desnivelados
+ */
 function switchValues() {
     let result = getTotal();
     qntLinhas = Math.round(Math.abs(valorTotal - result) * 100);
@@ -84,12 +115,10 @@ let qntLinhas = null;
 let valorTotal = null;
 let valorIndividual = null;
 
-
 // Inicialização
 let remessas = getRemessas();
 console.clear();
 setCustos();
-
 
 // Verificação final
 if (valorTotal && getTotal() !== valorTotal) {
@@ -97,7 +126,6 @@ if (valorTotal && getTotal() !== valorTotal) {
     setCustos();
 }
 
-
-// Aviso no console
+// Aviso de finalização
 console.info('Operação realizada');
 console.log('Valor total: ', getTotal());
